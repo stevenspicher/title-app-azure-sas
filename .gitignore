@@ -67,3 +67,8 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/titleapp-azure-backend.iml
+/.idea/vcs.xml
