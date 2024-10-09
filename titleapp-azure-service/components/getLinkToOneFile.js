@@ -1,22 +1,33 @@
 const {shareName, shareClient, credential } = require("../AzureCredentials");
 
-function getLinkToOneFile() {
-    const fileName = "C&E26-525.pdf";
-    const directoryPath = "CLIENTS/Other Clients/MCO/County Courthouse Scanned Documents/Johnson County/Johnson County Docs";
-    const directoryClient = shareClient.getDirectoryClient(directoryPath);
+async function getLinkToOneFile(fileName, folderPath) {
+    let directoryPath = "CLIENTS/Other Clients/MCO";
+    let fullPath;
+if (typeof folderPath === "object") {
+
+    let joinedFolderPath = folderPath.join("/");
+   fullPath = directoryPath + "/" + joinedFolderPath + "/"
+    console.log(fullPath)
+} else {fullPath = folderPath}
+    const directoryClient = shareClient.getDirectoryClient(fullPath);
     const fileClient = directoryClient.getFileClient(fileName);
 
     const {generateFileSASQueryParameters, ShareSASPermissions} = require("@azure/storage-file-share");
+
+
+
     const sasToken = generateFileSASQueryParameters({
         shareName,
         filePath: fileClient.path,
         startsOn: new Date(),
-        expiresOn: new Date(new Date().valueOf() + 86400),
+        expiresOn: new Date(new Date().valueOf() + 2592000),
         permissions: ShareSASPermissions.parse("r"),
     }, credential).toString();
 
     console.log(`${fileClient.url}?${sasToken}`);
     return `${fileClient.url}?${sasToken}`
+
 };
 
-getLinkToOneFile();
+
+module.exports = getLinkToOneFile;
