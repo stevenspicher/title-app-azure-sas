@@ -1,9 +1,8 @@
 
 const {shareClient} = require("../AzureCredentials");
 
-async function createFolder() {
+async function createFolder(directoryPath) {
     //TODO: pass in directory as variable
-    const directoryPath = "CLIENTS/Other Clients/MCO/Wyoming/Campbell County/test";
     const directoryClient = shareClient.getDirectoryClient(directoryPath);
 
     await directoryClient.create();

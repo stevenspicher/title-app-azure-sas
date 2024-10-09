@@ -1,8 +1,6 @@
 const {shareClient} = require("../AzureCredentials");
 
-async function deleteFile() {
-    const fileName = "fileUploadTest.pdf";
-    const directoryPath = "CLIENTS/Other Clients/MCO";
+async function deleteFile(directoryPath, fileName) {
     const directoryClient = shareClient.getDirectoryClient(directoryPath);
     const fileClient = directoryClient.getFileClient(fileName);
 

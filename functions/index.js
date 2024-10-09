@@ -29,10 +29,10 @@ app.use(cors({
 }));
 
 // Include your functions
-// const createFolder = require('./components/createFolder');
-// const deleteFolder = require('./components/deleteFolder');
-// const uploadFile = require('./components/uploadFile');
-// const deleteFile = require('./components/deleteFile');
+const createFolder = require('./components/createFolder');
+const deleteFolder = require('./components/deleteFolder');
+const uploadFile = require('./components/uploadFile');
+const deleteFile = require('./components/deleteFile');
 // const getLinkToOneFile = require('./components/getLinkToOneFile');
 // const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
 const listFilesInDirectory = require('./components/listFilesInDirectory');
@@ -44,26 +44,46 @@ const getFileData = require("./components/getFileData")
 // });
 
 // Define routes
-// app.get('/create-folder', async (req, res) => {
-//     const result = await createFolder();
-//     res.send(result);
-// });
-//
-// app.get('/delete-folder', async (req, res) => {
-//     const result = await deleteFolder();
-//     res.send(result);
-// });
-//
-// app.get('/upload-file', async (req, res) => {
-//     const result = await uploadFile();
-//     res.send(result);
-// });
-//
-// app.get('/delete-file', async (req, res) => {
-//     const result = await deleteFile();
-//     res.send(result);
-// });
-//
+app.get('/create-folder', async (req, res) => {
+  try {
+    let {folderPath} = req.query;
+    const result = await createFolder(folderPath);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get('/delete-folder', async (req, res) => {
+  try {
+    let {folderPath} = req.query;
+  const result = await deleteFolder(folderPath);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get('/upload-file', async (req, res) => {
+try {
+  let {folderPath, fileName, filePath} = req.query;
+    const result = await uploadFile(folderPath, fileName, filePath);
+    res.send(result);
+} catch (error) {
+  res.status(500).send(error);
+}
+});
+
+app.get('/delete-file', async (req, res) => {
+  try {
+    let {folderPath, fileName} = req.query;
+    const result = await deleteFile(folderPath, fileName);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 app.get('/get-link-to-file', async (req, res) => {
   try {
     let {fileName, folderPath} = req.query;
