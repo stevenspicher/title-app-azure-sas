@@ -1,5 +1,5 @@
 const {shareClient } = require('../AzureCredentials');
-const fs = require("fs");
+
 async function uploadFile(folderPath, fileName, fileData, ) {
     const directoryPath = "CLIENTS/Other Clients/MCO"
     let fullPath =  directoryPath + "/" + folderPath;
