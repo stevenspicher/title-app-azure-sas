@@ -7,7 +7,6 @@ if (typeof folderPath === "object") {
 
     let joinedFolderPath = folderPath.join("/");
    fullPath = directoryPath + "/" + joinedFolderPath + "/"
-    console.log(fullPath)
 } else {fullPath = folderPath}
     const directoryClient = shareClient.getDirectoryClient(fullPath);
     const fileClient = directoryClient.getFileClient(fileName);

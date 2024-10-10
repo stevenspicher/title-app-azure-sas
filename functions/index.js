@@ -11,7 +11,7 @@ app.use(cors({
 
 // Include your functions
 const createFolder = require('./components/createFolder');
-// const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
+const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
 const listFilesInDirectory = require('./components/listFilesInDirectory');
 const getLinkToOneFile = require("./components/getLinkToOneFile");
 const uploadFile = require("./components/uploadFile");
@@ -94,10 +94,10 @@ app.get('/get-link-to-file', async (req, res) => {
 // });
 
 
-// app.get('/get-links-to-all-files', async (req, res) => {
-//     const result = await getLinksToAllFilesInDirectory();
-//     res.send(result);
-// });
+app.get('/get-links-to-all-files', async (req, res) => {
+    const result = await getLinksToAllFilesInDirectory();
+    res.send(result);
+});
 
 app.get('/list-files-in-directory', async (req, res) => {
 
@@ -111,5 +111,8 @@ app.get('/list-files-in-directory', async (req, res) => {
 });
 
 
-//exports.app = functions.https.onRequest(app);
-app.listen(3000, () => console.log('Server running on port 3000'));
+exports.app = functions.https.onRequest(app);
+
+//uncomment to test locally:
+
+//app.listen(3000, () => console.log('Server running on port 3000'));
