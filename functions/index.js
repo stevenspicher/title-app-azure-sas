@@ -1,27 +1,6 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-//
-// const {onRequest} = require("firebase-functions/v2/https");
-// const logger = require("firebase-functions/logger");
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
 
 const functions = require("firebase-functions");
 const express = require("express");
-const axios = require("axios");
-const XLSX = require('xlsx');
 const cors = require('cors')
 const app = express()
 app.use(cors({
@@ -30,18 +9,13 @@ app.use(cors({
 
 // Include your functions
 const createFolder = require('./components/createFolder');
-// const deleteFolder = require('./components/deleteFolder');
-// const uploadFile = require('./components/uploadFile');
-// const deleteFile = require('./components/deleteFile');
-// const getLinkToOneFile = require('./components/getLinkToOneFile');
-// const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
+const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
 const listFilesInDirectory = require('./components/listFilesInDirectory');
 const getLinkToOneFile = require("./components/getLinkToOneFile");
-//const getFileData = require("./components/getFileData")
+const uploadFile = require("./components/uploadFile");
+const deleteFolder = require("./components/deleteFolder");
 
-// app.get('/test', (req, res) => {
-//   res.send('Hello from Express on Firebase!');
-// });
+
 
 // Define routes
 app.get('/create-folder', async (req, res) => {
@@ -54,25 +28,25 @@ app.get('/create-folder', async (req, res) => {
   }
 });
 
-// app.get('/delete-folder', async (req, res) => {
-//   try {
-//     let {folderPath} = req.query;
-//   const result = await deleteFolder(folderPath);
-//     res.send(result);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
+app.get('/delete-folder', async (req, res) => {
+  try {
+    let {folderPath} = req.query;
+  const result = await deleteFolder(folderPath);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
-// app.get('/upload-file', async (req, res) => {
-// try {
-//   let {folderPath, fileName, filePath} = req.query;
-//     const result = await uploadFile(folderPath, fileName, filePath);
-//     res.send(result);
-// } catch (error) {
-//   res.status(500).send(error);
-// }
-// });
+app.get('/upload-file', async (req, res) => {
+try {
+  let {folderPath, fileName, filePath} = req.query;
+    const result = await uploadFile(folderPath, fileName, filePath);
+    res.send(result);
+} catch (error) {
+  res.status(500).send(error);
+}
+});
 
 // app.get('/delete-file', async (req, res) => {
 //   try {
@@ -132,4 +106,5 @@ app.get('/list-files-in-directory', async (req, res) => {
 });
 
 
-exports.app = functions.https.onRequest(app);
+//exports.app = functions.https.onRequest(app);
+app.listen(3000, () => console.log('Server running on port 3000'));

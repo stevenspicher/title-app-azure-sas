@@ -17,3 +17,5 @@ async function uploadFile(fileName, filePath, directoryPath) {
 uploadFile().catch(e => {
     console.error("An error occurred: ", e.message);
 });
+
+module.exports = uploadFile;

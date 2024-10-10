@@ -32,3 +32,5 @@ async function getLinksToFilesInDirectory() {
 getLinksToFilesInDirectory().catch(e => {
     console.error("An error occurred: ", e.message);
 });
+
+module.exports = getLinksToFilesInDirectory;
