@@ -2,12 +2,13 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require('cors')
-const multer  = require('multer')
-const upload = multer()
+
+const fileParser = require('express-multipart-file-parser');
 const app = express()
 app.use(cors({
   origin: '*' // or use "*" to allow all origins
 }));
+app.use(fileParser)
 
 // Include your functions
 const createFolder = require('./components/createFolder');
@@ -17,7 +18,6 @@ const getLinkToOneFile = require("./components/getLinkToOneFile");
 const uploadFile = require("./components/uploadFile");
 const deleteFolder = require("./components/deleteFolder");
 const deleteFile = require("./components/deleteFile");
-
 
 
 // Define routes
@@ -41,17 +41,32 @@ app.get('/delete-folder', async (req, res) => {
   }
 });
 
+// app.post('/upload-file', async (req, res) => {
+//   try {
+//     let {folderPath, fileName, fileData} = req.body;
+//     const result = await uploadFile(folderPath, fileName, fileData);
+//     res.send(result);
+//   } catch (error) {
+//     res.status(500).send(error);
+//   }
+// });
 
-app.post('/upload-file', upload.single('file'), async (req, res) => {
+app.post('/upload-file', async (req, res) => {
   try {
-    let {folderPath, fileName} = req.body;
-    let fileData = req.file.buffer; // multer adds a .file property to the request; .buffer contains the file data
-    const result = await uploadFile(folderPath, fileName, fileData);
-    res.send(result);
-  } catch (error) {
-    res.status(500).send(error);
-  }
+
+  const folderPath = req.body.folderPath;
+  const fileName = req.files[0].originalname;
+  const fileData = req.files[0].buffer
+  const result = await uploadFile(folderPath, fileName, fileData);
+  res.send(result);
+} catch (error) {
+  res.status(500).send(error);
+}
+
+
 });
+
+
 
 app.get('/delete-file', async (req, res) => {
   try {
