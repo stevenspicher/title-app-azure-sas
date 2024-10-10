@@ -1,7 +1,10 @@
 const {shareClient} = require("../AzureCredentials");
 
-async function deleteFile(directoryPath, fileName) {
-    const directoryClient = shareClient.getDirectoryClient(directoryPath);
+async function deleteFile(folderPath, fileName) {
+    let directoryPath = "CLIENTS/Other Clients/MCO";
+
+    let fullPath =  directoryPath + "/" + folderPath;
+    const directoryClient = shareClient.getDirectoryClient(fullPath);
     const fileClient = directoryClient.getFileClient(fileName);
 
     await fileClient.delete();
@@ -11,3 +14,5 @@ async function deleteFile(directoryPath, fileName) {
 deleteFile().catch(e => {
     console.error("An error occurred: ", e.message);
 });
+
+module.exports = deleteFile;

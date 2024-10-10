@@ -3,7 +3,7 @@ const { shareName, shareClient, credential } = require("../AzureCredentials");
 const { generateFileSASQueryParameters, ShareSASPermissions } = require("@azure/storage-file-share");
 
 async function getLinksToFilesInDirectory() {
-    //const directoryPath = "CLIENTS/Other Clients/MCO/County Courthouse Scanned Documents/Johnson County/Johnson County Docs";
+    const directoryPath = "CLIENTS/Other Clients/MCO";
     const directoryClient = shareClient.getDirectoryClient(directoryPath);
 
     let dirIter = directoryClient.listFilesAndDirectories();

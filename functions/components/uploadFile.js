@@ -1,13 +1,11 @@
 const {shareClient } = require('../AzureCredentials');
 const fs = require("fs");
-async function uploadFile(fileName, filePath, directoryPath) {
-    // const fileName = "fileUploadTest.pdf";
-    // const filePath = "../fileUploadTest.pdf"
-    // const directoryPath = "CLIENTS/Other Clients/MCO/Wyoming/Campbell County/test";
-    const directoryClient = shareClient.getDirectoryClient(directoryPath);
+async function uploadFile(folderPath, fileName, fileData, ) {
+    const directoryPath = "CLIENTS/Other Clients/MCO"
+    let fullPath =  directoryPath + "/" + folderPath;
 
+    const directoryClient = shareClient.getDirectoryClient(fullPath);
     const fileClient = directoryClient.getFileClient(fileName);
-    const fileData = fs.readFileSync(filePath);
 
     await fileClient.uploadData(fileData);
     console.log("Upload complete");

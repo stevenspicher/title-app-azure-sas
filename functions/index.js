@@ -2,6 +2,8 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require('cors')
+const multer  = require('multer')
+const upload = multer()
 const app = express()
 app.use(cors({
   origin: '*' // or use "*" to allow all origins
@@ -9,11 +11,12 @@ app.use(cors({
 
 // Include your functions
 const createFolder = require('./components/createFolder');
-const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
+// const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
 const listFilesInDirectory = require('./components/listFilesInDirectory');
 const getLinkToOneFile = require("./components/getLinkToOneFile");
 const uploadFile = require("./components/uploadFile");
 const deleteFolder = require("./components/deleteFolder");
+const deleteFile = require("./components/deleteFile");
 
 
 
@@ -38,25 +41,27 @@ app.get('/delete-folder', async (req, res) => {
   }
 });
 
-app.get('/upload-file', async (req, res) => {
-try {
-  let {folderPath, fileName, filePath} = req.query;
-    const result = await uploadFile(folderPath, fileName, filePath);
+
+app.post('/upload-file', upload.single('file'), async (req, res) => {
+  try {
+    let {folderPath, fileName} = req.body;
+    let fileData = req.file.buffer; // multer adds a .file property to the request; .buffer contains the file data
+    const result = await uploadFile(folderPath, fileName, fileData);
     res.send(result);
-} catch (error) {
-  res.status(500).send(error);
-}
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
-// app.get('/delete-file', async (req, res) => {
-//   try {
-//     let {folderPath, fileName} = req.query;
-//     const result = await deleteFile(folderPath, fileName);
-//     res.send(result);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
+app.get('/delete-file', async (req, res) => {
+  try {
+    let {folderPath, fileName} = req.query;
+    const result = await deleteFile(folderPath, fileName);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 app.get('/get-link-to-file', async (req, res) => {
   try {
@@ -89,10 +94,10 @@ app.get('/get-link-to-file', async (req, res) => {
 // });
 
 
-app.get('/get-links-to-all-files', async (req, res) => {
-    const result = await getLinksToAllFilesInDirectory();
-    res.send(result);
-});
+// app.get('/get-links-to-all-files', async (req, res) => {
+//     const result = await getLinksToAllFilesInDirectory();
+//     res.send(result);
+// });
 
 app.get('/list-files-in-directory', async (req, res) => {
 
