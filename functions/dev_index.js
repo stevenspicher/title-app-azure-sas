@@ -23,31 +23,17 @@ const express = require("express");
 const axios = require("axios");
 const XLSX = require('xlsx');
 const cors = require('cors')
-const getLinkToOneFile = require("./components/getLinkToOneFile");
+//const getLinkToOneFile = require("./components/getLinkToOneFile");
 const listFilesInDirectory = require("./components/listFilesInDirectory");
 const createFolder = require("./components/createFolder");
 const deleteFolder = require("./components/deleteFolder");
+const getLinkToOneFile = require("./components/getLinkToOneFile");
 const app = express()
 app.use(cors({
   origin: '*' // or use "*" to allow all origins
 }));
 
 // Include your functions
-
-let  directoryPath = "CLIENTS/Other Clients/MCO";
-//const createFolder = require('./components/createFolder');
-// const deleteFolder = require('./components/deleteFolder');
-// const uploadFile = require('./components/uploadFile');
-// const deleteFile = require('./components/deleteFile');
-// const getLinkToOneFile = require('./components/getLinkToOneFile');
-// const getLinksToAllFilesInDirectory = require('./components/getLinksToFilesInDirectory');
-//const listFilesInDirectory = require('./components/listFilesInDirectory');
-//const getLinkToOneFile = require("./components/getLinkToOneFile");
-//const getFileData = require("./components/getFileData")
-
-// app.get('/test', (req, res) => {
-//   res.send('Hello from Express on Firebase!');
-// });
 
 // Define routes
 app.get('/create-folder', async (req, res) => {
