@@ -2,7 +2,7 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const cors = require('cors')
-
+const XLSX = require("xlsx")
 const fileParser = require('express-multipart-file-parser');
 const app = express()
 app.use(cors({
@@ -18,6 +18,7 @@ const getLinkToOneFile = require("./components/getLinkToOneFile");
 const uploadFile = require("./components/uploadFile");
 const deleteFolder = require("./components/deleteFolder");
 const deleteFile = require("./components/deleteFile");
+const getXlsxFileData = require("./components/getXlsxFileData");
 
 
 // Define routes
@@ -40,16 +41,6 @@ app.get('/delete-folder', async (req, res) => {
     res.status(500).send(error);
   }
 });
-
-// app.post('/upload-file', async (req, res) => {
-//   try {
-//     let {folderPath, fileName, fileData} = req.body;
-//     const result = await uploadFile(folderPath, fileName, fileData);
-//     res.send(result);
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
 
 app.post('/upload-file', async (req, res) => {
   try {
@@ -89,24 +80,15 @@ app.get('/get-link-to-file', async (req, res) => {
 });
 
 
-// app.get('/get-xlsx-file-data', async (req, res) => {
-//   try {
-//     const url = req.query.url;
-//     const response = await axios.get(url, {responseType: 'arraybuffer'});
-//     const fileData = response.data;
-//     const workbook = XLSX.read(fileData, {type: 'array'});
-//     const sheetName = workbook.SheetNames[0];
-//     const worksheet = workbook.Sheets[sheetName];
-//
-//     const jsonArr = XLSX.utils.sheet_to_json(worksheet);
-//     // Transforming each object in jsonArr array to an array of values.
-//     const jsonData = jsonArr.map(obj  => Object.values(obj));
-//     res.json(jsonData);
-//
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
+app.get('/get-xlsx-data', async (req, res) => {
+  try {
+    const result = await getXlsxFileData(req)
+    console.log(result)
+    res.send(result);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 
 app.get('/get-links-to-all-files', async (req, res) => {
@@ -126,8 +108,8 @@ app.get('/list-files-in-directory', async (req, res) => {
 });
 
 
-exports.app = functions.https.onRequest(app);
+//exports.app = functions.https.onRequest(app);
 
 //uncomment to test locally:
 
-//app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3000, () => console.log('Server running on port 3000'));

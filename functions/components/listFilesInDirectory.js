@@ -39,7 +39,7 @@ const {shareClient } = require('../AzureCredentials');
 const getLinkToOneFile = require('./getLinkToOneFile');
 
 async function listFilesInDirectory(folderPath) {
-    console.log(folderPath);
+    console.log("getting List")
     const fileList = [];
     const folderList = [];
     let directoryPath = "CLIENTS/Other Clients/MCO";

@@ -1,6 +1,7 @@
 const {shareName, shareClient, credential } = require("../AzureCredentials");
 
 async function getLinkToOneFile(fileName, folderPath) {
+    console.log("getting Link")
     let directoryPath = "CLIENTS/Other Clients/MCO";
     let fullPath;
 if (typeof folderPath === "object") {
@@ -23,7 +24,6 @@ if (typeof folderPath === "object") {
         permissions: ShareSASPermissions.parse("r"),
     }, credential).toString();
 
-    console.log(`${fileClient.url}?${sasToken}`);
     return `${fileClient.url}?${sasToken}`
 
 };

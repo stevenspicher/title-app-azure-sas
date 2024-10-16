@@ -3,6 +3,7 @@ const { shareName, shareClient, credential } = require("../AzureCredentials");
 const { generateFileSASQueryParameters, ShareSASPermissions } = require("@azure/storage-file-share");
 
 async function getLinksToFilesInDirectory() {
+    console.log("getting Links")
     const directoryPath = "CLIENTS/Other Clients/MCO";
     const directoryClient = shareClient.getDirectoryClient(directoryPath);
 
